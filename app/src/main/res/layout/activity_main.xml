@@ -25,4 +25,12 @@
         android:text="SEND"
         app:layout_constraintTop_toBottomOf="@+id/edittext"/>
 
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edittext"
+        android:text="I am Dao Nguyen and this my very first Mobile App. I am currently working at Philips Healthcare as a Mechanical Engineer. I feel like I can do much better with computer programming and software, so I've moved on to take this AD program. I am married and have two kids. I am a big soccer fan and I can play soccer. I also a part time photographer. Thanks for looking at my App!"
+        android:textAlignment="center"
+        android:textSize="14sp" />
 </android.support.constraint.ConstraintLayout>
