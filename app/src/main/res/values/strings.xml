@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ActivityKotlin</string>
+    <string name="entertext">Enter text here</string>
+    <string name="aboutme">I am Dao Nguyen and this my very first Mobile App. I am currently working at Philips Healthcare as a Mechanical Engineer. I feel like I can do much better with computer programming and software, so I moved on to take this AD program. I am married and have two kids. I am a big soccer fan and I can play soccer. I also a part time photographer. Thanks for looking at my App!</string>
+    <string name="send">SEND</string>
 </resources>
