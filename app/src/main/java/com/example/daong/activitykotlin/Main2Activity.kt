@@ -22,6 +22,8 @@ class Main2Activity : AppCompatActivity() {
         Log.d(TAG, "Main2Activity: onCreate()")
     }
 
+
+
     override fun onRestart() {
         super.onRestart()
         Log.d(TAG, "Main2Activity: onRestart()")
