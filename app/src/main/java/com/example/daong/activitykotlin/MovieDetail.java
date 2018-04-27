@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.daong.activitykotlin.R;
 
 import org.w3c.dom.Text;
@@ -17,9 +18,6 @@ public class MovieDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-
-        //hide the default actionbar
-        getSupportActionBar().hide();
 
 
         //Recievie data
@@ -47,8 +45,10 @@ public class MovieDetail extends AppCompatActivity {
 
         collapsingToolbarLayout.setTitle(title);
 
+        RequestOptions requestOption = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
+
         //setting image using Glide
-        Glide.with(this).load(image_url).into(zombie_image);
+        Glide.with(this).load(image_url).apply(requestOption).into(zombie_image);
 
     }
 }

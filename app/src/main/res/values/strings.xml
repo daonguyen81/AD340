@@ -1,6 +1,11 @@
 <resources>
-    <string name="app_name">ActivityKotlin</string>
+    <string name="app_name">DaoFirstApp</string>
     <string name="entertext">Enter text here</string>
-    <string name="aboutme">I am Dao and this is my first Android App. I am Mechanical Engineer at Philips and want to become Software Developer. I am married and have two kids. I like watching and playing soccer.</string>
+    <string name="aboutme">I am Dao and this is my first Android App. I am a Mechanical Engineer at Philips. I have a dream to become a Software Developer. I am married with two kids. I like watching and playing soccer.</string>
     <string name="send">SEND</string>
+    <string name="about_page">About</string>
+    <string name="about_content">This is the about content.</string>
+    <string name="display_name">Message</string>
+    <string name="zombie_list">List</string>
+    <string name="movie_detail">Detail</string>
 </resources>

@@ -8,16 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 public class ZombieAdapter extends RecyclerView.Adapter<ZombieAdapter.ViewHolder> {
 
     private Context context;
     private List<Zombie> list;
+    private RequestOptions option;
 
     public ZombieAdapter(Context context, List<Zombie> list) {
         this.context = context;
         this.list = list;
+        option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
     }
 
     @Override

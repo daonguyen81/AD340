@@ -20,10 +20,23 @@
         </activity>
         <activity
             android:name=".Main2Activity"
+            android:label="@string/display_name"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ZombieList"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".MovieDetail"></activity>
+
+        <activity
+            android:name=".ZombieList"
+            android:label="@string/zombie_list"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".MovieDetail"
+            android:label="@string/movie_detail"
+            android:parentActivityName=".ZombieList" />
+
+        <activity
+            android:name=".About"
+            android:label="@string/about_page"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
