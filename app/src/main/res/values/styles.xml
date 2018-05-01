@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:minHeight">?android:attr/actionBarSize</item>
+        <item name="android:theme">?android:attr/actionBarTheme</item>
     </style>
 
 </resources>

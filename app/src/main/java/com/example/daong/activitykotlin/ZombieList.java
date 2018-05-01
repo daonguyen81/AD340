@@ -32,6 +32,8 @@ public class ZombieList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zombie_list);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mList = findViewById(R.id.main_list);
 
         movieList = new ArrayList<>();

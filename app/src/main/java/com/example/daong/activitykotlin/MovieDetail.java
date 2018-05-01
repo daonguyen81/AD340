@@ -19,6 +19,8 @@ public class MovieDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //Recievie data
         String title = getIntent().getExtras().getString("zombie_title");
