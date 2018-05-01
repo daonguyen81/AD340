@@ -2,8 +2,14 @@ package com.example.daong.activitykotlin
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.DrawerLayout
+import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 
 class Main2Activity : AppCompatActivity() {
 
@@ -12,6 +18,7 @@ class Main2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+        
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val intent = intent
@@ -23,7 +30,23 @@ class Main2Activity : AppCompatActivity() {
         Log.d(TAG, "Main2Activity: onCreate()")
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.setting_option, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        if (id == R.id.action_setting) {
+            val toast = Toast.makeText(this@Main2Activity, "This is setting option menu!", Toast.LENGTH_SHORT)
+            toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 10)
+            toast.show()
+            return true
+        } else {
+            return super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onRestart() {
         super.onRestart()

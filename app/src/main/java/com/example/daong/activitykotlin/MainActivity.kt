@@ -80,7 +80,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             toast.show()
             return true
         }
-
         return super.onOptionsItemSelected(item)
     }
 

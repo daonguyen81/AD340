@@ -3,14 +3,14 @@ package com.example.daong.activitykotlin;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.daong.activitykotlin.R;
-
-import org.w3c.dom.Text;
 
 public class MovieDetail extends AppCompatActivity {
 
@@ -20,7 +20,6 @@ public class MovieDetail extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         //Recievie data
         String title = getIntent().getExtras().getString("zombie_title");
@@ -52,5 +51,30 @@ public class MovieDetail extends AppCompatActivity {
         //setting image using Glide
         Glide.with(this).load(image_url).apply(requestOption).into(zombie_image);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.setting_option, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_setting) {
+            Toast toast = Toast.makeText(MovieDetail.this, "This is setting option menu!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 10);
+            toast.show();
+            return true;
+        }else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

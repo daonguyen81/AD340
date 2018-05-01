@@ -4,7 +4,7 @@
     <string name="aboutme">I am Dao and this is my first Android App. I am a Mechanical Engineer at Philips. I have a dream to become a Software Developer. I am married with two kids. I like watching and playing soccer.</string>
     <string name="send">SEND</string>
     <string name="about_page">About</string>
-    <string name="about_content">This is the about content.</string>
+    <string name="about_content">This is my first android app. I have learned how to create several layouts for android app including Constraint, Linear, Relative, Grid, RecylerView and this week I learned about Navigation Drawer and option setting menu for our app. I also created multiple activities and linked them together using onClick and Navigation Drawer. Thanks for looking at my app. I am looking to build a better and better app everyday in this class.</string>
     <string name="display_name">Message</string>
     <string name="zombie_list">List</string>
     <string name="movie_detail">Detail</string>
