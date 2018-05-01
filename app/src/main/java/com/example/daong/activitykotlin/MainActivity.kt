@@ -4,20 +4,16 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.graphics.BitmapFactory
 import android.support.design.widget.NavigationView
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.view.Gravity
 import android.widget.Toast
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
-
+import android.view.View
 
 
 const val EXTRA_TEXT = "com.example.daong.activitykotlin.EXTRA_TEXT"
@@ -43,12 +39,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById(R.id.navigation_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
-
-        val imageView = findViewById<View>(R.id.imageView) as ImageView
-        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.daofamily)
-        val round = RoundedBitmapDrawableFactory.create(resources, bitmap)
-        round.isCircular = true
-        imageView.setImageDrawable(round)
 
         val button = findViewById(R.id.button) as Button
         button.setOnClickListener { openActivity2() }
@@ -114,19 +104,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
     }
 
-    fun onDisplayToast1(v: View) {
+    fun onDisplayToast1(v:View) {
         val toast = Toast.makeText(this@MainActivity, "This is TOAST 1!", Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 10)
         toast.show()
     }
 
-    fun onDisplayToast2(v: View) {
+    fun onDisplayToast2(v:View) {
         val toast = Toast.makeText(this@MainActivity, "This is TOAST 2!", Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 10)
         toast.show()
     }
 
-    fun onDisplayToast3(v: View) {
+    fun onDisplayToast3(v:View) {
         val toast = Toast.makeText(this@MainActivity, "This is TOAST 3!", Toast.LENGTH_SHORT)
         toast.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 10)
         toast.show()
