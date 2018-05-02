@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DaoFirstApp</string>
+    <string name="app_name">NavDrawer</string>
     <string name="entertext">Enter text here</string>
     <string name="aboutme">I am Dao and this is my first Android App. I am a Mechanical Engineer at Philips. I have a dream to become a Software Developer. I am married with two kids. I like watching and playing soccer.</string>
     <string name="send">SEND</string>
@@ -10,8 +10,8 @@
     <string name="movie_detail">Detail</string>
     <string name="menu_action_setting">Setting</string>
     <string name="menu_action_about_us">About</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Dao Nguyen</string>
     <string name="nav_header_subtitle">dao.nguyen425@yahoo.com</string>
     <string name="nav_header_desc">Navigation header</string>
