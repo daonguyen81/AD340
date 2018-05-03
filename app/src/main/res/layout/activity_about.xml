@@ -5,6 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include layout="@layout/app_bar_main" />
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/mysearch"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 
     <TextView
         android:id="@+id/aboutpage"
