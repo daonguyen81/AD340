@@ -10,35 +10,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/display_name"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".Main2Activity" />
 
-        <activity
-            android:name=".ZombieList"
-            android:label="@string/zombie_list"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ZombieList"/>
 
-        <activity
-            android:name=".MovieDetail"
-            android:label="@string/movie_detail"
-            android:parentActivityName=".ZombieList" />
+        <activity android:name=".MovieDetail" />
 
-        <activity
-            android:name=".About"
-            android:label="@string/about_page"
-            android:parentActivityName=".MainActivity" />
+        <activity android:name=".About"/>
     </application>
-
 </manifest>

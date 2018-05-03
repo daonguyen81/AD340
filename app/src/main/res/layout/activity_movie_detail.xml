@@ -6,9 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MovieDetail">
 
+    <include layout="@layout/app_bar_main" />
+    <com.miguelcatalan.materialsearchview.MaterialSearchView
+        android:id="@+id/mysearch"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <android.support.design.widget.AppBarLayout
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_height="200dp"
         android:id="@+id/appbarlayout_id">
 
