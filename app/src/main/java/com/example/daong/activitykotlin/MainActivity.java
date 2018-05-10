@@ -1,6 +1,8 @@
 package com.example.daong.activitykotlin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -18,8 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,11 +31,18 @@ public class MainActivity extends AppCompatActivity
     public static final String EXTRA_TEXT = "com.example.daong.activitykotlin.EXTRA_TEXT";
     MaterialSearchView materialSearchView;
     String[] list;
+    SharedPreferences mySharedPreferences;
+    private static final String mypreferences = "mypref";
+    private static final String text = "inputText";
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        editText = (EditText) findViewById(R.id.edittext);
+        loadText();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,13 +89,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity2();
-            }
-        });
 
         Button z_button = (Button) findViewById(R.id.z_button);
         z_button.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +98,40 @@ public class MainActivity extends AppCompatActivity
             }
         });
         Log.d(TAG, "MainActivity: onCreate()");
+    }
+
+    public void sendTextToSecondActivity(View v) {
+        editText = (EditText) findViewById(R.id.edittext);
+        String text = editText.getText().toString();
+
+        if(isValidInput(text)) {
+            save();
+            openActivity2(text);
+        } else {
+            Toast.makeText(MainActivity.this, "Input can't be empty!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isValidInput(String text) {
+        if(text.length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void save() {
+        String myText = editText.getText().toString();
+        SharedPreferences.Editor editor = mySharedPreferences.edit();
+        editor.putString(text, myText);
+        editor.commit();
+    }
+
+    public void  loadText(){
+        mySharedPreferences = getSharedPreferences(mypreferences, Context.MODE_PRIVATE);
+        if (mySharedPreferences.contains(text)){
+            editText.setText(mySharedPreferences.getString(text, ""));
+        }
     }
 
     private void openZombieList() {
@@ -159,13 +196,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void openActivity2() {
-
-        EditText editText = (EditText) findViewById(R.id.edittext);
-        String text = editText.getText().toString();
+    public void openActivity2(String str) {
 
         Intent intent = new Intent(this, Main2Activity.class);
-        intent.putExtra(EXTRA_TEXT, text);
+        intent.putExtra(EXTRA_TEXT, str);
         startActivity(intent);
     }
 

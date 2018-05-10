@@ -56,6 +56,7 @@
                     app:layout_constraintLeft_toRightOf="@+id/edittext"
                     android:text="@string/send"
                     tools:ignore="MissingConstraints"
+                    android:onClick="sendTextToSecondActivity"
                     tools:layout_editor_absoluteX="263dp"
                     tools:layout_editor_absoluteY="4dp" />
             </android.support.constraint.ConstraintLayout>
