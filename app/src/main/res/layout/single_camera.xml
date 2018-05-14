@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:background="#fff">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/camera_container">
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:background="@drawable/loading_shape"
+            android:id="@+id/camera_thumnail"/>
+
+        <TextView
+            android:id="@+id/camera_name_id"
+            android:layout_width="182dp"
+            android:layout_height="61dp"
+            android:layout_alignParentRight="true"
+            android:text="Name"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/connection"
+            android:layout_width="182dp"
+            android:layout_height="wrap_content"
+            android:text="Connection"
+            android:layout_below="@id/camera_name_id"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+</LinearLayout>
+
+

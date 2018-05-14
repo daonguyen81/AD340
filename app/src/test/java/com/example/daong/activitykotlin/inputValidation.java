@@ -16,7 +16,7 @@ public class inputValidation {
 
     @Test
     public void emptyInput_ReturnsFalse() {
-        assertThat(mActivity.isValidInput(""), is(false));
+        assertThat(mActivity.isValidInput("    "), is(false));
     }
 
 }

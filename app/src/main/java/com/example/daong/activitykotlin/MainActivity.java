@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         String text = editText.getText().toString();
 
         if(isValidInput(text)) {
-            save();
+            save(text.trim());
             openActivity2(text);
         } else {
             Toast.makeText(MainActivity.this, "Input can't be empty!", Toast.LENGTH_SHORT).show();
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public boolean isValidInput(String text) {
+        text = text.trim();
         if(text.length() > 0) {
             return true;
         } else {
@@ -120,8 +121,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void save() {
-        String myText = editText.getText().toString();
+    public void save(String myText) {
         SharedPreferences.Editor editor = mySharedPreferences.edit();
         editor.putString(text, myText);
         editor.commit();
@@ -191,6 +191,12 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,ZombieList.class);
             startActivity(intent);
         }
+
+        if (id == R.id.camera_list){
+            Intent intent = new Intent(this,CameraList.class);
+            startActivity(intent);
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

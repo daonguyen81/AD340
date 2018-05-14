@@ -10,5 +10,9 @@
         android:icon="@drawable/ic_list_black_24dp"
         android:title="Movies"/>
 
+    <item android:id="@+id/camera_list"
+        android:icon="@drawable/baseline_photo_camera_black_18dp"
+        android:title="Traffic Cameras"/>
+
 
 </menu>
