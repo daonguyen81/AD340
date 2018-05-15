@@ -3,6 +3,8 @@ package com.example.daong.activitykotlin;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -189,12 +190,26 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.main_list){
             Intent intent = new Intent(this,ZombieList.class);
-            startActivity(intent);
+            if(isNetworkAvailable(MainActivity.this)) //returns true if internet available
+            {
+                startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                toast.show();
+            }
         }
 
         if (id == R.id.camera_list){
             Intent intent = new Intent(this,CameraList.class);
-            startActivity(intent);
+            if(isNetworkAvailable(MainActivity.this)) //returns true if internet available
+            {
+                startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                toast.show();
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -229,6 +244,22 @@ public class MainActivity extends AppCompatActivity
 
         toast.show();
 
+    }
+
+    public boolean isNetworkAvailable(Context context) {
+
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (null != connectivity) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (null != info && info.isConnected()) {
+                if (info.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

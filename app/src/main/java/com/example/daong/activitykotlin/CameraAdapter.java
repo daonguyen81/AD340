@@ -46,11 +46,6 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
 
         //load camera image
         Glide.with(context).load(cList.get(position).getImageUrl()).apply(option).into(holder.camera_thumbnail);
-        if(isNetworkAvailable(context)) {
-            holder.network_status.setText("Status: Connected");
-        } else {
-            holder.network_status.setText("Status: Not Connected");
-        }
     }
 
     @Override
@@ -66,7 +61,7 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView camera_name, network_status;
+        TextView camera_name;
         ImageView camera_thumbnail;
         RelativeLayout view_container;
 
@@ -74,26 +69,8 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
             super(itemView);
             view_container = itemView.findViewById(R.id.camera_container);
             camera_name = itemView.findViewById(R.id.camera_name_id);
-            network_status = itemView.findViewById(R.id.connection);
             camera_thumbnail = itemView.findViewById(R.id.camera_thumnail);
 
         }
     }
-
-    public static boolean isNetworkAvailable(Context context) {
-
-        ConnectivityManager connectivity = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        if (null != connectivity) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (null != info && info.isConnected()) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
 }
