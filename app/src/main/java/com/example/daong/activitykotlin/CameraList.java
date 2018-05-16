@@ -13,18 +13,12 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -42,8 +36,7 @@ public class CameraList extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
     private List<Camera> cameraList;
-    private RecyclerView.Adapter adapter;
-    private CameraAdapter cameraAdapter;
+    private CameraAdapter adapter;
     MaterialSearchView materialSearchView;
     String[] list;
 
@@ -52,6 +45,7 @@ public class CameraList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camera_list);
 
+        //materialSearchView = (MaterialSearchView) findViewById(R.id.mysearch);
         cList = findViewById(R.id.camera_list);
         cameraList = new ArrayList<>();
         adapter = new CameraAdapter(getApplicationContext(),cameraList);
@@ -78,7 +72,7 @@ public class CameraList extends AppCompatActivity {
                 finish();
             }
         });
-
+        getCameraData();
         list = new String[]{"AD340", "Android", "Mobile App", "Google", "Programming", "Android Developer"};
         materialSearchView = (MaterialSearchView) findViewById(R.id.mysearch);
         materialSearchView.setSuggestions(list);
@@ -87,13 +81,15 @@ public class CameraList extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Here create your filtering
-                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+                adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
                 //change if typing
+                adapter.getFilter().filter(query);
                 return false;
             }
         });
@@ -109,8 +105,7 @@ public class CameraList extends AppCompatActivity {
 
             }
         });
-
-        getCameraData();
+        
     }
 
     private void getCameraData() {
@@ -189,7 +184,7 @@ public class CameraList extends AppCompatActivity {
         }
         if(id == R.id.search) {
             return true;
-        }else {
+        } else {
             return super.onOptionsItemSelected(item);
         }
     }

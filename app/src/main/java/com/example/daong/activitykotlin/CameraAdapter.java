@@ -1,13 +1,12 @@
 package com.example.daong.activitykotlin;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,15 +17,17 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder> {
+public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder>
+        implements Filterable{
 
-    private Context context;
-    private List<Camera> cList;
-    private RequestOptions option;
+    Context context;
+    List<Camera> cList, cFilterList;
+    RequestOptions option;
 
     public CameraAdapter(Context context, List<Camera> cList) {
         this.context = context;
         this.cList = cList;
+        this.cFilterList = cList;
         option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
     }
 
@@ -50,14 +51,43 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return cList.size();
+        return cFilterList.size();
     }
 
-    public void setFilter(List<Camera> listFiltered) {
-        cList = new ArrayList<>();
-        cList.addAll(listFiltered);
-        notifyDataSetChanged();
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+
+                if(charString.isEmpty()){
+                    cFilterList = cList;
+                }else {
+                    List<Camera> filteredList = new ArrayList<>();
+                    for(Camera camera: cList) {
+
+                        if(camera.getType().toLowerCase().contains(charString.toLowerCase())){
+                            filteredList.add(camera);
+                        }
+                    }
+                    cFilterList = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = cFilterList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                cFilterList = (ArrayList<Camera>) results.values;
+                notifyDataSetChanged();
+            }
+
+        };
     }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
