@@ -42,11 +42,11 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(CameraAdapter.ViewHolder holder, int position) {
-        final Camera camera = cList.get(position);
+        final Camera camera = cFilterList.get(position);
         holder.camera_name.setText(camera.getDescription());
 
         //load camera image
-        Glide.with(context).load(cList.get(position).getImageUrl()).apply(option).into(holder.camera_thumbnail);
+        Glide.with(context).load(cFilterList.get(position).getImageUrl()).apply(option).into(holder.camera_thumbnail);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CameraAdapter extends RecyclerView.Adapter<CameraAdapter.ViewHolder
                     List<Camera> filteredList = new ArrayList<>();
                     for(Camera camera: cList) {
 
-                        if(camera.getType().toLowerCase().contains(charString.toLowerCase())){
+                        if(camera.getType().toLowerCase().startsWith(charString.toLowerCase())){
                             filteredList.add(camera);
                         }
                     }

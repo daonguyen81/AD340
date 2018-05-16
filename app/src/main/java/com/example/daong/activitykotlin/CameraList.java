@@ -1,9 +1,12 @@
 package com.example.daong.activitykotlin;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +16,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,8 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,38 +34,44 @@ import java.util.List;
 public class CameraList extends AppCompatActivity {
 
     private String url = "https://api.myjson.com/bins/93lae";
-    private RecyclerView cList;
+    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
     private List<Camera> cameraList;
     private CameraAdapter adapter;
-    MaterialSearchView materialSearchView;
+    private SearchView searchView;
     String[] list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.camera_list);
+        setContentView(R.layout.main_camera_activity);
 
-        //materialSearchView = (MaterialSearchView) findViewById(R.id.mysearch);
-        cList = findViewById(R.id.camera_list);
-        cameraList = new ArrayList<>();
-        adapter = new CameraAdapter(getApplicationContext(),cameraList);
-
-        linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        dividerItemDecoration = new DividerItemDecoration(cList.getContext(), linearLayoutManager.getOrientation());
-
-        cList.setHasFixedSize(true);
-        cList.setLayoutManager(linearLayoutManager);
-        cList.addItemDecoration(dividerItemDecoration);
-        cList.setAdapter(adapter);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar2);
         toolbar.setTitle("Traffic Cameras");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
+        //materialSearchView = (MaterialSearchView) findViewById(R.id.mysearch);
+        recyclerView = findViewById(R.id.recycler_view);
+        cameraList = new ArrayList<>();
+        adapter = new CameraAdapter(getApplicationContext(),cameraList);
+
+
+        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setAdapter(adapter);
+
+
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,40 +80,9 @@ public class CameraList extends AppCompatActivity {
                 finish();
             }
         });
+
         getCameraData();
-        list = new String[]{"AD340", "Android", "Mobile App", "Google", "Programming", "Android Developer"};
-        materialSearchView = (MaterialSearchView) findViewById(R.id.mysearch);
-        materialSearchView.setSuggestions(list);
-        materialSearchView.setEllipsize(true);
-        materialSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Here create your filtering
-                //Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
-                adapter.getFilter().filter(query);
-                return false;
-            }
 
-            @Override
-            public boolean onQueryTextChange(String query) {
-                //change if typing
-                adapter.getFilter().filter(query);
-                return false;
-            }
-        });
-
-        materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-            }
-        });
-        
     }
 
     private void getCameraData() {
@@ -149,22 +126,35 @@ public class CameraList extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if (materialSearchView.isSearchOpen()) {
-            materialSearchView.closeSearch();
-        }else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.setting_option, menu);
-        MenuItem item = menu.findItem(R.id.search);
-        materialSearchView.setMenuItem(item);
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.action_search)
+                .getActionView();
+        searchView.setSearchableInfo(searchManager
+                .getSearchableInfo(getComponentName()));
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+
+        // listening to search query text change
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // filter recycler view when query submitted
+                //adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                // filter recycler view when text is changed
+                adapter.getFilter().filter(query);
+                return false;
+            }
+        });
         return true;
     }
 
@@ -176,16 +166,28 @@ public class CameraList extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search) {
+            return true;
+        }
         if (id == R.id.action_setting) {
             Toast toast = Toast.makeText(CameraList.this, "This is setting option menu!", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 10);
             toast.show();
             return true;
         }
-        if(id == R.id.search) {
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        // close search view on back button pressed
+        if (!searchView.isIconified()) {
+            searchView.setIconified(true);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+
 }

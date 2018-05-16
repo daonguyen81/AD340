@@ -4,20 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-    <include layout="@layout/app_bar_main" />
-    <com.miguelcatalan.materialsearchview.MaterialSearchView
-        android:id="@+id/mysearch"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    tools:showIn="@layout/main_camera_activity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/camera_list"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical" />
 
 </RelativeLayout>
