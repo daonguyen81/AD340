@@ -137,7 +137,14 @@ public class MainActivity extends AppCompatActivity
 
     private void openZombieList() {
         Intent intent = new Intent(this, ZombieList.class);
-        startActivity(intent);
+        if(isNetworkAvailable(MainActivity.this)) //returns true if internet available
+        {
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+            toast.show();
+        }
     }
 
     @Override
@@ -212,6 +219,18 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        if (id == R.id.my_location) {
+            Intent intent = new Intent(this, MapsActivity.class);
+            if(isNetworkAvailable(MainActivity.this)) //returns true if internet available
+            {
+                startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+                toast.show();
+            }
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -224,11 +243,19 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void onDisplayToast1(View v) {
-        Toast toast = Toast.makeText(MainActivity.this, "This is TOAST 1!", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
-        toast.show();
+    public void onDisplayCameraList(View v) {
+
+        Intent intent = new Intent(this, CameraList.class);
+        if (isNetworkAvailable(MainActivity.this)) //returns true if internet available
+        {
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+            toast.show();
+        }
     }
+
 
     public void onDisplayToast2(View v) {
         Toast toast = Toast.makeText(MainActivity.this, "This is TOAST 2!", Toast.LENGTH_SHORT);

@@ -14,5 +14,9 @@
         android:icon="@drawable/baseline_photo_camera_black_18dp"
         android:title="Traffic Cameras"/>
 
+    <item android:id="@+id/my_location"
+
+        android:title="My Location"/>
+
 
 </menu>
