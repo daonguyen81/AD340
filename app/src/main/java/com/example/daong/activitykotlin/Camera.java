@@ -5,6 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class Camera {
+    public double Latitude;
+    public double Longtitude;
     public String Id;
     public String Description;
     public String imageUrl;
@@ -15,12 +17,22 @@ public class Camera {
     }
 
 
-    public Camera(String id, String description, String imageUrl, String type) {
+    public Camera(double latitude, double longtitude, String id, String description, String imageUrl, String type) {
+        Latitude = latitude;
+        Longtitude = longtitude;
         Id = id;
         Description = description;
         this.imageUrl = imageUrl;
         Type = type;
     }
+
+    public double getLatitude() {return Latitude; }
+
+    public void setLatitude(double latitude) {Latitude = latitude;}
+
+    public double getLongtitude() {return Longtitude; }
+
+    public void setLongtitude(double longtitude) {Longtitude = longtitude; }
 
     public String getId() {
         return Id;

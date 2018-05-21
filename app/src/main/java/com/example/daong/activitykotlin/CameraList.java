@@ -34,7 +34,7 @@ import java.util.List;
 
 public class CameraList extends AppCompatActivity {
 
-    private String url = "https://api.myjson.com/bins/93lae";
+    private String url = "https://web6.seattle.gov/Travelers/api/Map/Data?zoomId=13&type=2";
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private DividerItemDecoration dividerItemDecoration;
