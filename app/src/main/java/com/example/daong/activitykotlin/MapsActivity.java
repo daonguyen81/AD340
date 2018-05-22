@@ -1,6 +1,5 @@
 package com.example.daong.activitykotlin;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,11 +10,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -29,16 +24,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -53,79 +44,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import com.squareup.picasso.Picasso;
 
-import javax.security.auth.callback.Callback;
-import android.Manifest;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.security.auth.callback.Callback;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -137,6 +64,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
     Marker mCurrLocationMarker;
+    private Hashtable<String, String> markers = new Hashtable<>();
     GoogleMap mGoogleMap;
     MaterialSearchView materialSearchView;
     String[] list;
@@ -190,16 +118,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         materialSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
-            public void onSearchViewShown() {
-
-            }
+            public void onSearchViewShown() {}
 
             @Override
-            public void onSearchViewClosed() {
-
-            }
+            public void onSearchViewClosed() {}
         });
-
     }
 
     @Override
@@ -233,6 +156,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             mGoogleMap.setMyLocationEnabled(true);
         }
 
+        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowGoogleMap(MapsActivity.this));
         getCameraData();
     }
 
@@ -263,24 +187,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             camera.setImageUrl(cameras.getString("ImageUrl"));
                         }
 
-                        // mMap.addMarker(new MarkerOptions().position(new LatLng(camera.getLatitude(), camera.getLongtitude())).title(camera.getDescription()));
                         MarkerOptions markerOptions = new MarkerOptions();
                         LatLng newCamLocation = new LatLng(camera.getLatitude(),
                                 camera.getLongtitude());
                         if (camera.getType().equals(("wsdot"))) {
-                            markerOptions.position(newCamLocation).title(camera.getDescription()).icon(BitmapDescriptorFactory
+                            markerOptions.position(newCamLocation).title(camera.getId()).snippet(camera.getDescription()).icon(BitmapDescriptorFactory
                                     .defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                         } else {
-                            markerOptions.position(newCamLocation).title(camera.getDescription());
+                            markerOptions.position(newCamLocation).title(camera.getId()).snippet(camera.getDescription());
                         }
 
-
-                        Marker m = mGoogleMap.addMarker(markerOptions);
-                        //markerPlaces.add(m.getId());
-                        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowGoogleMap(MapsActivity.this));
-                        m.setTag(camera);
-                        //m.showInfoWindow();
-                        //m.hideInfoWindow();
+                        final Marker marker = mGoogleMap.addMarker(markerOptions);
+                        markers.put(marker.getId(), camera.getImageUrl());
                         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(newCamLocation));
 
                     }
@@ -299,7 +217,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjectRequest);
-
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -310,8 +227,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .build();
         mGoogleApiClient.connect();
     }
-
-
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -336,6 +251,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(final Location location)
     {
+        String currentAddress = "";
         mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
@@ -343,34 +259,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //Place current location marker
         final LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        currentAddress = getAddress(location);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title("Current Location");
+        markerOptions.snippet(currentAddress);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-        //markerPlaces.add(mCurrLocationMarker.getId());
-        //mCurrLocationMarker.setTag(latLng);
-
-        //String markerType = "mCurrLocationMarker";
-        //mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowGoogleMap(MapsActivity.this,location));
-        //mGoogleMap.setInfoWindowAdapter(new AddressInfoWindow(MapsActivity.this, location));
-
-        //move map camera and we can also set zoom level
+        String dao_image = "https://imgur.com/a/FYac1js";
+        markers.put(mCurrLocationMarker.getId(), dao_image);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
 
         CircleOptions circleOptions = new CircleOptions();
         circleOptions.center(latLng);
-
         circleOptions.radius(200);
         circleOptions.fillColor(Color.BLUE);
         circleOptions.strokeWidth(6);
-
         mGoogleMap.addCircle(circleOptions);
-
     }
 
-    /*
-    public void getAddress(Location location) {
+    public String getAddress(Location location) {
         String result = "";
         geocoder = new Geocoder(this, Locale.getDefault());
         try {
@@ -381,9 +289,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 addressDetails.append("Current Location Address");
                 addressDetails.append("\n");
+                if(address.getSubThoroughfare() == null) {
+                    addressDetails.append("");
+                } else {
+                    addressDetails.append(address.getSubThoroughfare());
+                    addressDetails.append(" ");
+                }
 
-                addressDetails.append(address.getThoroughfare());
-                addressDetails.append("\n");
+                if(address.getThoroughfare() == null){
+                    addressDetails.append("");
+                } else {
+                    addressDetails.append(address.getThoroughfare());
+                    addressDetails.append("\n");
+                }
 
                 addressDetails.append("City: ");
                 addressDetails.append(address.getLocality());
@@ -411,17 +329,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 result = "No Address returned!";
             }
 
-
-            Toast toast = Toast.makeText(MapsActivity.this, result, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 10);
-            toast.show();
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return result;
     }
-    */
+
 
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -478,13 +391,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 return;
             }
-
         }
     }
 
     @Override
     public void onBackPressed() {
-
         if (materialSearchView.isSearchOpen()) {
             materialSearchView.closeSearch();
         }else {
@@ -519,6 +430,60 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
+
+        private Context context;
+        boolean not_first_time_showing_info_window;
+
+        public CustomInfoWindowGoogleMap(Context ctx) {
+            context = ctx;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+
+            View view = ((MapsActivity) context).getLayoutInflater()
+                    .inflate(R.layout.custom_info_window, null);
+
+            final String url = markers.get(marker.getId());
+
+            final String snippet = marker.getSnippet();
+
+            TextView name = view.findViewById(R.id.camera_name);
+            ImageView img = view.findViewById(R.id.camera_image);
+            if (not_first_time_showing_info_window) {
+                Picasso.with(context).load(url).into(img);
+            } else {
+                not_first_time_showing_info_window = true;
+                Picasso.with(context).load(url).into(img, new InfoWindowRefresher(marker));
+            }
+            name.setText(snippet);
+            return view;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            return null;
+        }
+    }
+
+    private class InfoWindowRefresher implements com.squareup.picasso.Callback {
+        private Marker markerToRefresh;
+
+        private InfoWindowRefresher(Marker markerToRefresh) {
+            this.markerToRefresh = markerToRefresh;
+        }
+
+        @Override
+        public void onSuccess() {
+            markerToRefresh.showInfoWindow();
+        }
+
+        @Override
+        public void onError() {
         }
     }
 }
