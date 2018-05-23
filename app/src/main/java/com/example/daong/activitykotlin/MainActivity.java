@@ -257,10 +257,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onDisplayToast2(View v) {
-        Toast toast = Toast.makeText(MainActivity.this, "This is TOAST 2!", Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
-        toast.show();
+    public void onDisplayMaps(View v) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        if (isNetworkAvailable(MainActivity.this)) //returns true if internet available
+        {
+            startActivity(intent);
+        } else {
+            Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection!", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 16);
+            toast.show();
+        }
     }
 
     public void onDisplayToast3(View v) {
