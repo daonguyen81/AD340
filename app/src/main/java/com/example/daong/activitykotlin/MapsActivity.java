@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
@@ -454,12 +455,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             TextView name = view.findViewById(R.id.camera_name);
             ImageView img = view.findViewById(R.id.camera_image);
-            if (not_first_time_showing_info_window) {
-                Picasso.with(context).load(url).into(img);
-            } else {
-                not_first_time_showing_info_window = true;
-                Picasso.with(context).load(url).into(img, new InfoWindowRefresher(marker));
-            }
+            Picasso.with(context).load(url).error(R.mipmap.ic_launcher).into(img, new InfoWindowRefresher(marker));
+
             name.setText(snippet);
             return view;
         }
@@ -470,20 +467,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    private class InfoWindowRefresher implements com.squareup.picasso.Callback {
-        private Marker markerToRefresh;
+    static class InfoWindowRefresher implements Callback {
+       Marker markerToRefresh;
 
-        private InfoWindowRefresher(Marker markerToRefresh) {
+        InfoWindowRefresher(Marker markerToRefresh) {
             this.markerToRefresh = markerToRefresh;
         }
 
         @Override
         public void onSuccess() {
+            if (markerToRefresh == null) {
+                return;
+            }
+            if (!markerToRefresh.isInfoWindowShown()) {
+                return;
+            }
+            markerToRefresh.hideInfoWindow();
             markerToRefresh.showInfoWindow();
         }
 
         @Override
-        public void onError() {
-        }
+        public void onError() { }
     }
 }
