@@ -268,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.snippet(currentAddress);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-        String dao_image = "http://dnguyen.icoolshow.net/daofamily.jpg";
+        String dao_image = "http://dnguyen.icoolshow.net/hawaii-family.jpg";
         markers.put(mCurrLocationMarker.getId(), dao_image);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
 
