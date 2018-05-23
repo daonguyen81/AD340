@@ -445,7 +445,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         @Override
         public View getInfoWindow(Marker marker) {
+            return null;
+        }
 
+        @Override
+        public View getInfoContents(Marker marker) {
             View view = ((MapsActivity) context).getLayoutInflater()
                     .inflate(R.layout.custom_info_window, null);
 
@@ -461,12 +465,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             name.setText(snippet);
             return view;
         }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            return null;
-        }
-
     }
 
     static class InfoWindowRefresher implements Callback {
@@ -489,7 +487,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             markerToRefresh.hideInfoWindow();
             markerToRefresh.showInfoWindow();
         }
-
 
         @Override
         public void onError() { }
