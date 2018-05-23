@@ -460,7 +460,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             TextView name = view.findViewById(R.id.camera_name);
             ImageView img = view.findViewById(R.id.camera_image);
             Log.d("url",url);
-            Picasso.with(context).load(url).error(R.mipmap.ic_launcher).into(img, new InfoWindowRefresher(marker));
+            Picasso.with(context).load(url).error(R.mipmap.ic_launcher).resize(180,140).into(img, new InfoWindowRefresher(marker));
 
             name.setText(snippet);
             return view;
