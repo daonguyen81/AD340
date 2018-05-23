@@ -11,6 +11,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -267,7 +268,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         markerOptions.snippet(currentAddress);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-        String dao_image = "https://imgur.com/a/FYac1js";
+        String dao_image = "http://dnguyen.icoolshow.net/daofamily.jpg";
         markers.put(mCurrLocationMarker.getId(), dao_image);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13));
 
@@ -437,7 +438,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
         private Context context;
-        boolean not_first_time_showing_info_window;
 
         public CustomInfoWindowGoogleMap(Context ctx) {
             context = ctx;
@@ -455,6 +455,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             TextView name = view.findViewById(R.id.camera_name);
             ImageView img = view.findViewById(R.id.camera_image);
+            Log.d("url",url);
             Picasso.with(context).load(url).error(R.mipmap.ic_launcher).into(img, new InfoWindowRefresher(marker));
 
             name.setText(snippet);
@@ -465,10 +466,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         public View getInfoContents(Marker marker) {
             return null;
         }
+
     }
 
     static class InfoWindowRefresher implements Callback {
-       Marker markerToRefresh;
+        Marker markerToRefresh;
 
         InfoWindowRefresher(Marker markerToRefresh) {
             this.markerToRefresh = markerToRefresh;
@@ -479,12 +481,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (markerToRefresh == null) {
                 return;
             }
+
             if (!markerToRefresh.isInfoWindowShown()) {
                 return;
             }
+
             markerToRefresh.hideInfoWindow();
             markerToRefresh.showInfoWindow();
         }
+
 
         @Override
         public void onError() { }
